@@ -7,19 +7,19 @@
 
 
 using namespace std;
-int tempread();
+void tempread();
 
 
 char intemp;
-string inputFileName;
-ifstream infile;
+string inputFileName = "C:/Users/quinn/source/repos/Lab 4 Restart/Lab 4 Restart";
+ifstream inFile;
 
 
 int main()
 {
 
-	infile.open("inTempurature.dat");
-	if (!infile)
+	inFile.open("inTempurature.dat");
+	if (!inFile)
 	{
 		char yesno;
 		cout << "File not found would you like to make one Y or N; ";
@@ -38,83 +38,73 @@ int main()
 		return 1;
 	}
 	tempread();
-	infile.close();
+	inFile.close();
 
 	return 0;
 }
 
 
-int tempread()
+void tempread()
 {
-	infile >> intemp;
-	int mintemp = '-35';
-	int maxtemp = '120';
-	cout << "Tempurature for 24 hours:\n";
-	cout << "   -30        0        30        60        90       120" << endl;
-	string star;
-	star = " * ";
-	string space;
-	space = " ";
-	int i;
+	char temp;
 
-	while (intemp)
+	cout << "\nOpening file...";
+
+
+	//Heading for graph.
+	cout << "\n\nTemperatures for 24 hours: \n";
+	cout << setw(8) << "-30" << setw(8) << "0" << setw(10) << "30" << setw(10) << "60" << setw(10) << "90" << setw(10) << "120" << endl;
+
+	inFile.open("inTempurature.dat");
+	inFile.get(temp);
+
+	while (temp != '\0')
 	{
-		if (intemp == -35 && intemp <= -30)
-		{
-			cout << intemp;
-			for (i = -35; i == -30; i + 1)
-			{
-				if (i < intemp)
-				{
-					cout << " ";
-				}
-				else if (i >= intemp)
-				{
-					cout << star;
-				}
-			}
+		temp = ceil(temp); //ceil is suposed to round to whole number
+
+		string starOutput; //Stores stars
+		starOutput = ""; //Should reset the stars for each time
+
+		if (temp < -35 || temp > 120) { //if value is too much the loop skips. Preventing Infinite loops
+			inFile >> temp;
+			continue; //Tells compiler to skip body of loop and return to loop condition of first for loop.
+
 		}
-		else if (intemp > -30 && intemp <= -1)
-		{
-			cout << intemp;
-			for (i = -30; i == -1; i + 1)
-			{
-				if (i < intemp)
-				{
-					cout << " ";
-				}
-				else if (i >= intemp)
-				{
-					cout << star;
-				}
-				cout << endl;
-			}
+		else { //temp in range
+			cout << temp << ":";
 		}
-		else if (intemp == 0)
+
+		//This for loop is used to get the correct amount of stars per degree.
+		for (int i = 1; i <= (abs(temp) / 3.0); ++i) //abs() is used to calculate values for negative inputs.
 		{
-			cout << 0 << setw(12) << "|";
+			starOutput.append("*"); //Appends a star to a string called starOutput every time the loop iterates.
 		}
-		else if (intemp > 0 && intemp <= 120)
-		{
-			for (i = 1; i == 120; i + 1)
-			{
-				if (i < intemp)
-				{
-					cout << " ";
-				}
-				else if (i >= intemp)
-				{
-					cout << star;
-				}
-				cout << endl;
-			}
+
+		//Following if else ladder prints the corressponding temperature and number of stars associated with that value
+		if (temp == -30) {
+			cout << setw(12) << starOutput + "|";
 		}
-		else if (intemp > 120)
-		{
-			cout << intemp << setw(12) << "|" << setw(12) << star << endl;
+		else if (temp > -30 && temp <= -10) {
+			cout << setw(12) << starOutput + "|";
 		}
+		else if (temp > -10 && temp < 0) {
+			cout << setw(13) << starOutput + "|";
+		}
+		else if (temp >= 0 && temp < 10) {
+			cout << setw(14) << "|" << starOutput;
+		}
+		else if (temp >= 10 && temp < 100) {
+			cout << setw(13) << "|" << starOutput;
+		}
+		else if (temp >= 100 && temp <= 120) {
+			cout << setw(12) << "|" << starOutput;
+		}
+
 		cout << endl;
-		infile >> intemp;
+		inFile.get(temp);
 	}
-	return EXIT_SUCCESS;
+	cout << "###############\n";
+	cout << "* = 3 degrees";
+	cout << "\n###############";
+	inFile.close();
 }
