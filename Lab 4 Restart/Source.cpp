@@ -55,6 +55,7 @@ void tempread()
 	cout << "\n\nTemperatures for 24 hours: \n";
 	cout << setw(8) << "-30" << setw(8) << "0" << setw(10) << "30" << setw(10) << "60" << setw(10) << "90" << setw(10) << "120" << endl;
 
+
 	while (temp != '\0')
 	{
 		temp = ceil(temp); //ceil is suposed to round to whole number
