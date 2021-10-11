@@ -11,15 +11,15 @@ void tempread();
 
 
 char intemp;
-string inputFileName = "C:/Users/quinn/source/repos/Lab 4 Restart/Lab 4 Restart";
+string inputFileName = "C:/Users/quinn/source/repos/Lab 4 Restart/Lab 4 Restart/inTempurature.dat";
 ifstream inFile;
 
 
 int main()
 {
 
-	inFile.open("inTempurature.dat");
-	if (!inFile)
+	inFile.open(inputFileName);//File open
+	if (!inFile)//Test to check for file and if not then it makes one
 	{
 		char yesno;
 		cout << "File not found would you like to make one Y or N; ";
@@ -35,9 +35,9 @@ int main()
 			outfile.open("inTempurature.dat");
 			cout << "File has been opened, Restart the program to accsess";
 		}
-		return 1;
+		return 1;//Ends operation so the next time there will be a file. 
 	}
-	tempread();
+	tempread();//Function call
 	inFile.close();
 
 	return 0;
@@ -49,20 +49,11 @@ void tempread()
 	char temp;
 
 	cout << "\nOpening file...";
-
+	inFile.get(temp);
 
 	//Heading for graph.
 	cout << "\n\nTemperatures for 24 hours: \n";
 	cout << setw(8) << "-30" << setw(8) << "0" << setw(10) << "30" << setw(10) << "60" << setw(10) << "90" << setw(10) << "120" << endl;
-
-	inFile.open("inTempurature.dat");
-	inFile.get(temp);
-
-	if (!inFile.get(temp))
-	{
-		cout << "Stream Error. Clossing.\n";
-		return;
-	}
 
 	while (temp != '\0')
 	{
@@ -81,12 +72,12 @@ void tempread()
 		}
 
 		//This for loop is used to get the correct amount of stars per degree.
-		for (int i = 1; i <= (abs(temp) / 3.0); ++i) //abs() is used to calculate values for negative inputs.
+		for (int i = 1; i <= (abs(temp) / 3.0); ++i) //abs() is ussed so the star count stays possitive.
 		{
-			starOutput.append("*"); //Appends a star to a string called starOutput every time the loop iterates.
+			starOutput.append("*"); //Append for the star. Supposed to help the star loop reset the string.
 		}
 
-		//Following if else ladder prints the corressponding temperature and number of stars associated with that value
+		//Nested If-Else for star output
 		if (temp == -30) {
 			cout << setw(12) << starOutput + "|";
 		}
@@ -109,6 +100,7 @@ void tempread()
 		cout << endl;
 		inFile.get(temp);
 	}
+	//output to show ussers how the stars work.
 	cout << "###############\n";
 	cout << "* = 3 degrees";
 	cout << "\n###############";
