@@ -58,6 +58,12 @@ void tempread()
 	inFile.open("inTempurature.dat");
 	inFile.get(temp);
 
+	if (!inFile.get(temp))
+	{
+		cout << "Stream Error. Clossing.\n";
+		return;
+	}
+
 	while (temp != '\0')
 	{
 		temp = ceil(temp); //ceil is suposed to round to whole number
