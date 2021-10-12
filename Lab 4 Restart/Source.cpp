@@ -1,3 +1,9 @@
+/*Samuel Trice
+* Lab 4. Ussing a file to make a chart of tempurature
+* Due:
+*/
+
+
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -7,10 +13,10 @@
 
 
 using namespace std;
-void tempread();
+void tempread(ifstream& inFile, string inputFileName);
 
 
-char intemp;
+ char temp;
 
 ifstream inFile;
 string inputFileName;
@@ -42,16 +48,16 @@ int main()
 			inFile.open(inputFileName.c_str());
 		}
 	} while (!inFile);
-	tempread();//Function call
+	tempread(inFile, inputFileName);//Function call
 	inFile.close();
 
 	return 0;
 }
 
 
-void tempread()
+void tempread(ifstream& inFile, string fileName)
 {
-	char temp;
+	
 
 	cout << "\nOpening file...";
 	inFile.get(temp);
