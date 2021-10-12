@@ -11,32 +11,37 @@ void tempread();
 
 
 char intemp;
-string inputFileName = "C:/Users/quinn/source/repos/Lab 4 Restart/Lab 4 Restart/inTempurature.dat";
-ifstream inFile;
 
+ifstream inFile;
+string inputFileName;
 
 int main()
 {
 
-	inFile.open(inputFileName);//File open
-	if (!inFile)//Test to check for file and if not then it makes one
+	do
 	{
-		char yesno;
-		cout << "File not found would you like to make one Y or N; ";
-		cin >> yesno;
-		if (yesno == 'N' || yesno == 'n')
+		cout << "Type the name of the file to be inputed: ";
+		cin >> inputFileName;
+		inFile.open(inputFileName.c_str());
+
+		if (!inFile)
 		{
-			cerr << "failed to open " << '\n';
+			cout << "Input file failed to open. Make sure you typed its name correctly and that the input file exists.\n";
+			cout << "Try again or press 't' to make a new file with a selected name: ";
+			cin >> inputFileName;
+			cout << "\n\n\n";
+
+			if (inputFileName == "T" || inputFileName == "t") //User terminates program. 
+			{
+				string filename = "inTempurature.dat";
+				ofstream outfile;
+				outfile.open("inTempurature.dat");
+				cout << "File named inTempurature.dat has been opened, Restart the program to accsess";
+				return 1;
+			}
+			inFile.open(inputFileName.c_str());
 		}
-		else if (yesno == 'Y' || yesno == 'y')
-		{
-			string filename = "inTempurature.dat";
-			ofstream outfile;
-			outfile.open("inTempurature.dat");
-			cout << "File has been opened, Restart the program to accsess";
-		}
-		return 1;//Ends operation so the next time there will be a file. 
-	}
+	} while (!inFile);
 	tempread();//Function call
 	inFile.close();
 
@@ -56,7 +61,7 @@ void tempread()
 	cout << setw(8) << "-30" << setw(8) << "0" << setw(10) << "30" << setw(10) << "60" << setw(10) << "90" << setw(10) << "120" << endl;
 
 
-	while (temp != '\0')
+	do
 	{
 		temp = ceil(temp); //ceil is suposed to round to whole number
 
@@ -100,7 +105,7 @@ void tempread()
 
 		cout << endl;
 		inFile.get(temp);
-	}
+	} while (inFile);
 	//output to show ussers how the stars work.
 	cout << "###############\n";
 	cout << "* = 3 degrees";
