@@ -1,6 +1,8 @@
 /*Samuel Trice
-* Lab 4. Ussing a file to make a chart of tempurature
-* Due:
+* C++ 2021
+* September 29th
+* Lab 4
+* Outputting a chart bassed on tempurature input from a file
 */
 
 
@@ -12,24 +14,28 @@
 #include <cctype>
 
 
-using namespace std;
+using namespace std;//Makes codding easier
+
+//Predicting that the file will hopefully take the variables and use them 
+//Output should be the finished product
 void tempread(ifstream& inFile, string inputFileName);
 
 
- char temp;
+ float temp;//Global veriable for tempurature
 
-ifstream inFile;
-string inputFileName;
+ifstream inFile;//Global identifier for the infile
+string inputFileName; //global name for the infile
 
 int main()
 {
-
+	//Do loop cause I like them better than while loops
 	do
 	{
+		//Allows people to use whatever file they have saved with the code
 		cout << "Type the name of the file to be inputed: ";
 		cin >> inputFileName;
 		inFile.open(inputFileName.c_str());
-
+		//If the file dosn't exist it makes sure you used the right file name and if not asks if you would like to make one
 		if (!inFile)
 		{
 			cout << "Input file failed to open. Make sure you typed its name correctly and that the input file exists.\n";
@@ -37,7 +43,7 @@ int main()
 			cin >> inputFileName;
 			cout << "\n\n\n";
 
-			if (inputFileName == "T" || inputFileName == "t") //User terminates program. 
+			if (inputFileName == "T" || inputFileName == "t") //Usser makes their own file 
 			{
 				string filename = "inTempurature.dat";
 				ofstream outfile;
@@ -45,7 +51,7 @@ int main()
 				cout << "File named inTempurature.dat has been opened, Restart the program to accsess";
 				return 1;
 			}
-			inFile.open(inputFileName.c_str());
+			inFile.open(inputFileName.c_str());//Opens new file
 		}
 	} while (!inFile);
 	tempread(inFile, inputFileName);//Function call
@@ -60,16 +66,16 @@ void tempread(ifstream& inFile, string fileName)
 	
 
 	cout << "\nOpening file...";
-	inFile.get(temp);
+	inFile >> temp;
 
 	//Heading for graph.
 	cout << "\n\nTemperatures for 24 hours: \n";
 	cout << setw(8) << "-30" << setw(8) << "0" << setw(10) << "30" << setw(10) << "60" << setw(10) << "90" << setw(10) << "120" << endl;
 
-
+	//Loop ussed to output the graph
 	do
 	{
-		temp = ceil(temp); //ceil is suposed to round to whole number
+		temp = round(temp); //round is suposed to round to whole number
 
 		string starOutput; //Stores stars
 		starOutput = ""; //Should reset the stars for each time
@@ -110,11 +116,11 @@ void tempread(ifstream& inFile, string fileName)
 		}
 
 		cout << endl;
-		inFile.get(temp);
+		inFile >> temp;
 	} while (inFile);
 	//output to show ussers how the stars work.
 	cout << "###############\n";
 	cout << "* = 3 degrees";
 	cout << "\n###############";
-	inFile.close();
+	inFile.close();//Closes the file
 }
